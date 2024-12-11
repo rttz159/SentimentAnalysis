@@ -78,7 +78,7 @@ def main():
                 # Preprocess and analyze
                 text = user_lyrics
                 detected_lang = detect(text)
-                print(detected_lang)
+                print(detected_lang + " hello")
                 translator = Translator()
                 translated_lyrics = translator.translate(text,src=detected_lang,dest='en').text
                 cleaned_lyrics = preprocess_text(pd.Series([translated_lyrics])).iloc[0]
