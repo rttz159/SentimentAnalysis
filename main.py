@@ -77,6 +77,9 @@ def main():
             if st.button("Analyze"):
                 # Preprocess and analyze
                 detected_lang = detect(user_lyrics)
+                if detected_lang is None:
+                    detected_lang = 'en'
+                    st.warning("Language detection failed, defaulting to English.")
                 translator = Translator()
                 translated_lyrics = translator.translate(user_lyrics,src=detected_lang,dest='en').text
                 cleaned_lyrics = preprocess_text(pd.Series([translated_lyrics])).iloc[0]
