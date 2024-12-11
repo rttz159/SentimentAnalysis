@@ -76,11 +76,9 @@ def main():
         if user_lyrics:
             if st.button("Analyze"):
                 # Preprocess and analyze
-                text = user_lyrics
-                detected_lang = detect(text)
-                print(detected_lang + " hello")
+                detected_lang = detect(user_lyrics)
                 translator = Translator()
-                translated_lyrics = translator.translate(text,src=detected_lang,dest='en').text
+                translated_lyrics = translator.translate(user_lyrics,src=detected_lang,dest='en').text
                 cleaned_lyrics = preprocess_text(pd.Series([translated_lyrics])).iloc[0]
                 sentiment, subjectivity = analyze_sentiment(cleaned_lyrics)
 
