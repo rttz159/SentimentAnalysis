@@ -4,6 +4,8 @@ import pandas as pd
 from nltk.corpus import stopwords
 from textblob import TextBlob
 import nltk
+from langdetect import detect
+from googletrans import Translator
 
 # Download NLTK stopwords
 nltk.download('stopwords')
@@ -48,7 +50,11 @@ def main():
             if 'text' in data.columns:
                 if st.button("Analyze"):
                     # Preprocess and analyze
-                    data['cleaned_lyrics'] = preprocess_text(data['text'])
+                    lyrics = data['text']
+                    detected_lang = detect(lyrics)
+                    translator = Translator()
+                    translated_lyrics = translator.translate(lyrics,src=detected_lang,dest='en')
+                    data['cleaned_lyrics'] = preprocess_text(translated_lyrics)
                     sentiments = []
                     subjectivities = []
                     for lyric in data['cleaned_lyrics']:
@@ -70,7 +76,11 @@ def main():
         if user_lyrics:
             if st.button("Analyze"):
                 # Preprocess and analyze
-                cleaned_lyrics = preprocess_text(pd.Series([user_lyrics])).iloc[0]
+                text = user_lyrics
+                detected_lang = detect(text)
+                translator = Translator()
+                translated_lyrics = translator.translate(text,src=detected_lang,dest='en')
+                cleaned_lyrics = preprocess_text(pd.Series([translated_lyrics])).iloc[0]
                 sentiment, subjectivity = analyze_sentiment(cleaned_lyrics)
 
                 # Display results
