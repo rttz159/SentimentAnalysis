@@ -4,5 +4,5 @@ textblob
 xlrd
 openpyxl
 nltk
-googletrans
+googletrans==4.0.0-rc1
 langdetect
